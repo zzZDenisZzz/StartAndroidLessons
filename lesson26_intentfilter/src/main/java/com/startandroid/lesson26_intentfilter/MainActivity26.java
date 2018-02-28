@@ -31,12 +31,12 @@ public class MainActivity26 extends AppCompatActivity implements View.OnClickLis
 
         switch (v.getId()){
             case R.id.btn_time:
-                intent = new Intent("com.startandroid.intent.action.time");
+                intent = new Intent("android.intent.action.time");
                 startActivity(intent);
                 break;
 
                 case R.id.btn_date:
-                intent = new Intent("com.startandroid.intent.action.date");
+                intent = new Intent("android.intent.action.date");
                 startActivity(intent);
                 break;
 

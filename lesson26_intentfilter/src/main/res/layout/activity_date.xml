@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.startandroid.lesson26_intentfilter.TimeActivity">
+    tools:context="com.startandroid.lesson26_intentfilter.DateActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text View"
-        android:id="@+id/text_time"
-        android:textSize="24dp"/>
+        android:text="TextView"
+        android:textSize="24dp"
+        android:id="@+id/text_date"/>
 </RelativeLayout>
