@@ -12,11 +12,11 @@ import android.widget.EditText;
 
 public class MainActivity34 extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnAdd, btnRead, btnClear;
-    EditText etName, etEmail;
+    Button btnAdd, btnRead, btnClear,btnUpd,btnDel;
+    EditText etName, etEmail,etId;
 
     DBHelper dbHelper;
-
+    private static final String TAG = "mLog";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +31,16 @@ public class MainActivity34 extends AppCompatActivity implements View.OnClickLis
         btnClear = findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
 
+        btnUpd = findViewById(R.id.btnUpd);
+        btnUpd.setOnClickListener(this);
+
+        btnDel = findViewById(R.id.btnDel);
+        btnDel.setOnClickListener(this);
+
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
+        etId = findViewById(R.id.etId);
+
 
         dbHelper = new DBHelper(this);
 
@@ -42,6 +50,7 @@ public class MainActivity34 extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
+        String id = etId.getText().toString();
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
@@ -64,12 +73,12 @@ public class MainActivity34 extends AppCompatActivity implements View.OnClickLis
                     int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
                     int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
                         do{
-                            Log.d("mLog","ID = " + cursor.getInt(idIndex) +
+                            Log.d(TAG,"ID = " + cursor.getInt(idIndex) +
                                     ", name = " + cursor.getString(nameIndex) +
                                     ", email = " + cursor.getString(emailIndex));
                     }while (cursor.moveToNext());
                 }else
-                    Log.d("mLog", "0 rows");
+                    Log.d(TAG, "0 rows");
 
                 cursor.close();
                 break;
@@ -77,6 +86,24 @@ public class MainActivity34 extends AppCompatActivity implements View.OnClickLis
             case R.id.btnClear:
                 database.delete(DBHelper.TABLE_CONTACTS,null,null);
                 break;
+
+            case R.id.btnUpd:
+                if(id.equalsIgnoreCase("")){
+                    break;
+                }
+                contentValues.put(DBHelper.KEY_MAIL,email);
+                contentValues.put(DBHelper.KEY_NAME,name);
+                int updCount = database.update(DBHelper.TABLE_CONTACTS, contentValues,DBHelper.KEY_ID + "= ?", new String[]{id});
+
+                Log.d(TAG, "update row count = " + updCount);
+
+            case R.id.btnDel:
+                if(id.equalsIgnoreCase("")){
+                    break;
+                }
+                int delCount = database.delete(DBHelper.TABLE_CONTACTS,DBHelper.KEY_ID + "=" + id, null);
+
+                Log.d(TAG, "deleted row count = " + delCount);
         }
         dbHelper.close();
     }
